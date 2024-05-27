@@ -7,5 +7,5 @@ setup(
     description='A simple Python package for my personal use',
     author='Matt Leary',
     url='https://github.com/mleary/pyleary',
-    install_requires=['markdown', 'textwrap'],
+    install_requires=['markdown'],
 )
