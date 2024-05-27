@@ -1,0 +1,43 @@
+import json
+import os
+import unittest
+from pyleary.blog import cache_text_to_json, read_text_from_json
+
+
+class TestCacheTextToJson(unittest.TestCase):
+    def setUp(self):
+        self.text = "Hello, world!"
+        self.text_name = "greeting"
+        self.json_file = "test.json"
+
+    def tearDown(self):
+        try:
+            os.remove(self.json_file)
+        except FileNotFoundError:
+            pass
+
+    def test_cache_text_to_json(self):
+        cache_text_to_json(self.text, self.text_name, self.json_file)
+        with open(self.json_file, 'r') as f:
+            data = json.load(f)
+        self.assertEqual(data[self.text_name], self.text)
+
+
+class TestReadTextFromJson(unittest.TestCase):
+    def setUp(self):
+        self.text = "Hello, world!"
+        self.text_name = "greeting"
+        self.json_file = "test.json"
+        with open(self.json_file, 'w') as f:
+            json.dump({self.text_name: self.text}, f)
+
+    def tearDown(self):
+        os.remove(self.json_file)
+
+    def test_read_text_from_json(self):
+        result = read_text_from_json(self.text_name, self.json_file)
+        self.assertEqual(result, self.text)
+
+
+if __name__ == '__main__':
+    unittest.main()
